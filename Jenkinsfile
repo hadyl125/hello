@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/your-github-repository-url']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/hadyl125/hello.git']]])
             }
         }
         stage('Build Python App') {
@@ -17,7 +17,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t your-dockerhub-username/your-app-name .'
+                    sh 'docker build -t hadyl125/hello.py .'
                 }
             }
         }
@@ -25,9 +25,9 @@ pipeline {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                        sh 'docker login -u your-dockerhub-username -p ${dockerhubpwd}'
+                        sh 'docker login -u hadyl125-p ${dockerhubpwd}'
                     }
-                    sh 'docker push your-dockerhub-username/your-app-name'
+                    sh 'docker push hadyl125/hello.py'
                 }
             }
         }
